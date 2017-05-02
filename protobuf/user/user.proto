@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+package synoday.item;
+
+option go_package = "github.com/synoday/golang/protogen/user";
+
+import "google/protobuf/timestamp.proto";
+import "type/creds.proto";
+
+// User hold user information.
+message User {
+  // id is user unique identifier.
+  string id                                 = 1;
+
+  // first_name is user first name.
+  string first_name                         = 4;
+
+  // last_name is user last name.
+  string last_name                          = 5;
+
+  // created is user registration timestamp
+  google.protobuf.Timestamp created         = 6;
+}
+
+// ResponseStatus is response status enum.
+enum ResponseStatus {
+  UNKNOWN                       = 0x0;
+  SUCCESS                       = 0x1;
+  INTERNAL_ERROR                = 0x2;
+
+  CREDENTIAL_INVALID            = 0x10;
+  CREDENTIAL_INVALID_EMAIL      = 0x11;
+  CREDENTIAL_INVALID_USERNAME   = 0x12;
+  CREDENTIAL_INVALID_PASSWORD   = 0x13;
+  CREDENTIAL_NOT_VERIFIED       = 0x14;
+
+  USER_INVALID_FIRST_NAME       = 0x20;
+}
+
+// RegisterRequest holds user registration information.
+message RegisterRequest {
+  // credential is user credential.
+  synoday.type.Credential credential      = 1;
+
+  // user is user profile information.
+  User user                            = 2;
+}
+
+// RegisterResponse holds the response of user registration.
+message RegisterResponse {
+  // status is the registration response status.
+  ResponseStatus status = 1;
+}
+
+// LoginRequest holds login request information.
+message LoginRequest {
+  // credential is user claimed credential.
+  synoday.type.Credential credential = 1;
+}
+
+// LoginResponse holds login request information.
+message LoginResponse {
+  // status is the login response status.
+  ResponseStatus status = 1;
+
+  // token is valid jwt token;
+  string token                    = 2;
+}
+
+// UserService provides method for user management.
+service UserService {
+  rpc Register(RegisterRequest) returns(RegisterResponse) {}
+
+  rpc Login(LoginRequest) returns(LoginResponse) {}
+}

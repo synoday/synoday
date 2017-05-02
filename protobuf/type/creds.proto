@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package synoday.type;
+
+option go_package = "github.com/synoday/golang/protogen/type/creds";
+
+// Credential holds user access information.
+message Credential {
+  // email is user unique email.
+  string email                                         = 1;
+
+  // username is user unique username.
+  string username                                      = 2;
+
+  // password is the secret credential.
+  string password                                      = 3;
+}

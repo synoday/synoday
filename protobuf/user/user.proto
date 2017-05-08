@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package synoday.item;
+package synoday.user;
 
 option go_package = "github.com/synoday/golang/protogen/user";
 
